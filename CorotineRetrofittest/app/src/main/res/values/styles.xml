@@ -1,0 +1,28 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Primary Color -->
+        <item name="colorPrimary">@color/amber_500</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- Secondary Color -->
+        <item name="colorSecondary">@color/amber_800</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+
+        <!-- Surface -->
+        <item name="colorSurface">@android:color/white</item>
+        <item name="colorOnSurface">@color/neutral_800</item>
+
+        <!-- Error -->
+        <item name="colorError">@color/red_500</item>
+
+        <!-- Background -->
+        <item name="android:colorBackground">@color/neutral_25</item>
+
+        <!-- StatusBar -->
+        <item name="android:statusBarColor">?attr/colorSecondary</item>
+    </style>
+
+</resources>
