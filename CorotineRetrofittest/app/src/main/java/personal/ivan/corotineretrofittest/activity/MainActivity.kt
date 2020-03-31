@@ -1,11 +1,13 @@
 package personal.ivan.corotineretrofittest.activity
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import personal.ivan.corotineretrofittest.R
+import personal.ivan.corotineretrofittest.api.ApiStatus
+import personal.ivan.corotineretrofittest.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,15 +16,40 @@ class MainActivity : AppCompatActivity() {
         ViewModelProvider(this).get(MainViewModel::class.java)
     }
 
+    // Data Binding
+    private val mBinding: ActivityMainBinding by lazy {
+        DataBindingUtil
+            .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+            .apply { viewModel = mViewModel }
+    }
+
     /* ------------------------------ Life Cycle */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        mViewModel.mApiRs.observe(
-            this,
-            Observer {
-                Log.i("", "")
-            })
+        mBinding
+        observeLiveData()
+    }
+
+    /* ------------------------------ Observe LiveData */
+
+    private fun observeLiveData() {
+        mViewModel.apply {
+
+            // UBike station list API
+            stationListApi.observe(
+                this@MainActivity,
+                Observer {
+                    when (it.status) {
+                        ApiStatus.LOADING -> enableLoading(enable = true)
+                        ApiStatus.SUCCESS -> {
+                            enableLoading(enable = false)
+                        }
+                        ApiStatus.FAIL -> {
+                            enableLoading(enable = false)
+                        }
+                    }
+                })
+        }
     }
 }

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CorotineRetrofittest</string>
+    <string name="label_u_bike">UBike</string>
 </resources>
