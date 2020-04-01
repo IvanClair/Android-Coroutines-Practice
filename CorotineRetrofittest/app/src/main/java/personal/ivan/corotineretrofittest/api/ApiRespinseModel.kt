@@ -8,7 +8,7 @@ data class UBikeStation(
      */
     @field:Json(name = "sno") val stationNumber: String?,
     @field:Json(name = "mday") val updateTimestamp: String?,
-    @field:Json(name = "act") val closed: String,
+    @field:Json(name = "act") val closed: String?,
     val lat: String?,
     val lng: String?,
     /*

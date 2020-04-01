@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import personal.ivan.corotineretrofittest.R
 import personal.ivan.corotineretrofittest.api.ApiStatus
 import personal.ivan.corotineretrofittest.databinding.ActivityMainBinding
@@ -36,20 +37,28 @@ class MainActivity : AppCompatActivity() {
     private fun observeLiveData() {
         mViewModel.apply {
 
-            // UBike station list API
-            stationListApi.observe(
+            // API loading status
+            apiStatus.observe(
                 this@MainActivity,
                 Observer {
-                    when (it.status) {
-                        ApiStatus.LOADING -> enableLoading(enable = true)
-                        ApiStatus.SUCCESS -> {
-                            enableLoading(enable = false)
-                        }
-                        ApiStatus.FAIL -> {
-                            enableLoading(enable = false)
-                        }
+                    @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
+                    when (it) {
+                        ApiStatus.LOADING -> showApiLoading(enable = true)
+                        ApiStatus.SUCCESS -> showApiLoading(enable = false)
+                        ApiStatus.FAIL -> showApiAlert()
                     }
                 })
         }
+    }
+
+    /* ------------------------------ UI */
+
+    private fun showApiAlert() {
+        mViewModel.showApiLoading(enable = false)
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.api_alert_title)
+            .setMessage(R.string.api_alert_message)
+            .setPositiveButton(R.string.button_ok, null)
+            .show()
     }
 }

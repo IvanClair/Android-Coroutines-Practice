@@ -1,31 +1,53 @@
 package personal.ivan.corotineretrofittest.activity
 
-import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import personal.ivan.corotineretrofittest.api.ApiRepository
-import personal.ivan.corotineretrofittest.api.ApiResult
-import personal.ivan.corotineretrofittest.api.UBikeStation
+import personal.ivan.corotineretrofittest.api.ApiStatus
 
 class MainViewModel : ViewModel() {
 
-    // Repository
-    private val mRepository: ApiRepository = ApiRepository()
+    /*
+        API
+     */
+    private val mRepository = ApiRepository()
+    private var mIndex: Int = 0
+    val apiStatus: MutableLiveData<ApiStatus> = MutableLiveData()
 
-    // API
-    val mIndex: MutableLiveData<Int> = MutableLiveData<Int>().apply { value = 0 }
-    val stationListApi: LiveData<ApiResult<List<UBikeStation>>> =
-        mIndex.switchMap {
-            liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
-                emit(ApiResult.loading())
-                try {
-                    emit(ApiResult.success(data = mRepository.requestStationList(index = it)))
-                } catch (e: Exception) {
-                    emit(ApiResult.fail())
+    /*
+        Binding Model
+     */
+    val mainBindingModel =
+        MutableLiveData<MainBindingModel>().apply { value = MainBindingModel() }
+    val mainVhBindingModelList =
+        MutableLiveData<MutableList<MainVhBindingModel>>().apply { value = mutableListOf() }
+    val dataUpdatedRange = MutableLiveData<Pair<Int, Int>>()
+
+    /* ------------------------------ Initial */
+
+    init {
+        requestApi()
+    }
+
+    /* ------------------------------ API */
+
+    private fun requestApi() {
+        viewModelScope.launch {
+            apiStatus.value = ApiStatus.LOADING
+            try {
+                val dataList = mRepository.requestStationList(index = mIndex)
+                mainVhBindingModelList.value?.apply {
+                    val lastIndexOfOriginDataList = lastIndex
+                    addAll(MainVhBindingModel.createDataList(dataList = dataList))
+                    dataUpdatedRange.value =
+                        Pair(lastIndexOfOriginDataList, lastIndexOfOriginDataList + dataList.size)
                 }
+                apiStatus.value = ApiStatus.SUCCESS
+            } catch (e: Exception) {
+                apiStatus.value = ApiStatus.FAIL
             }
         }
-
-    // Binding Model
-    val mainBindingModel: MutableLiveData<MainBindingModel> =
-        MutableLiveData<MainBindingModel>().apply { value = MainBindingModel() }
+    }
 }

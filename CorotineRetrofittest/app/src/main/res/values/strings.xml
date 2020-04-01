@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">CorotineRetrofittest</string>
     <string name="label_u_bike">UBike</string>
+    <string name="api_alert_title">Oops</string>
+    <string name="api_alert_message">Something went wrong, please try again.</string>
+    <string name="button_ok">OK</string>
 </resources>
