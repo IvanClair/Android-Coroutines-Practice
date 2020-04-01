@@ -41,8 +41,7 @@ class MainViewModel : ViewModel() {
                 mainVhBindingModelList.value?.apply {
                     val lastIndexOfOriginDataList = lastIndex
                     addAll(MainVhBindingModel.createDataList(dataList = dataList))
-                    dataUpdatedRange.value =
-                        Pair(lastIndexOfOriginDataList, lastIndexOfOriginDataList + dataList.size)
+                    dataUpdatedRange.value = Pair(lastIndexOfOriginDataList, dataList.size)
                 }
                 apiStatus.value = ApiStatus.SUCCESS
             } catch (e: Exception) {
