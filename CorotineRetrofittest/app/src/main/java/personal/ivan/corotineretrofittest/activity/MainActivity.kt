@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding
+        initRecyclerView()
         observeLiveData()
     }
 
@@ -48,10 +48,29 @@ class MainActivity : AppCompatActivity() {
                         ApiStatus.FAIL -> showApiAlert()
                     }
                 })
+
+            // Data set changed
+            dataUpdatedRange.observe(
+                this@MainActivity,
+                Observer { updateRecyclerView(startIndex = it.first, count = it.second) })
         }
     }
 
     /* ------------------------------ UI */
+
+    private fun initRecyclerView() {
+        mBinding.recyclerView.apply {
+            setHasFixedSize(true)
+            adapter = StationListAdapter(mViewModel = mViewModel)
+        }
+    }
+
+    private fun updateRecyclerView(
+        startIndex: Int,
+        count: Int
+    ) {
+        mBinding.recyclerView.adapter?.notifyItemRangeChanged(startIndex, count)
+    }
 
     private fun showApiAlert() {
         mViewModel.showApiLoading(enable = false)

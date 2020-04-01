@@ -25,4 +25,40 @@
         <item name="android:statusBarColor">?attr/colorSecondary</item>
     </style>
 
+    <!--  TextView  -->
+    <style name="MyTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/neutral_800</item>
+    </style>
+
+    <style name="MyTextView.MyHeadline4" parent="MyTextView">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline4
+        </item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="MyTextView.MyHeadline5" parent="MyTextView">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline5
+        </item>
+        <item name="android:textColor">?attr/colorError</item>
+    </style>
+
+    <style name="MyTextView.MyHeadline6" parent="MyTextView">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6
+        </item>
+    </style>
+
+    <style name="MyTextView.MySubtitle1" parent="MyTextView">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle1
+        </item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="MyTextView.MyCaption" parent="MyTextView">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Caption
+        </item>
+        <item name="android:textColor">@color/neutral_600</item>
+    </style>
 </resources>
