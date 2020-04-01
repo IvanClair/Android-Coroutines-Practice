@@ -1,21 +1,22 @@
 package personal.ivan.corotineretrofittest.api
 
-import android.content.Context
+import androidx.lifecycle.LiveDataScope
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import personal.ivan.corotineretrofittest.R
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-/**
- * @property mContext could be application context, no need to use UI context
- */
-class ApiRepository(private val mContext: Context) {
+class ApiRepository {
+
+    companion object {
+        private const val BASE_URL = "https://data.ntpc.gov.tw/od/data/api/"
+        const val LIMIT: Int = 10
+    }
 
     // API service
     private val mService: ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl(mContext.getString(R.string.base_url))
+            .baseUrl(BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(
                 OkHttpClient
@@ -31,7 +32,9 @@ class ApiRepository(private val mContext: Context) {
 
     /* ------------------------------ API */
 
-    suspend fun requestStationList() {
-
-    }
+    /**
+     * Request UBike station list
+     */
+    suspend fun requestStationList(index: Int): List<UBikeStation> =
+        mService.getUBikeStationList(limit = LIMIT, index = index)
 }
