@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="amber_500">#FFC107</color>
-    <color name="amber_800">#FF6F00</color>
-
-    <color name="neutral_25">#F2F4F4</color>
-    <color name="neutral_600">#50656E</color>
-    <color name="neutral_800">#1E3945</color>
-
-    <color name="red_500">#F51B46</color>
+    <color name="colorPrimary">#FFC107</color>
+    <color name="colorSecondary">#FF6F00</color>
+    <color name="colorSurface">@android:color/white</color>
+    <color name="colorError">#F51B46</color>
+    <color name="colorBackground">#F2F4F4</color>
+    <color name="textColorPrimary">#1E3945</color>
+    <color name="textColorSecondary">#50656E</color>
 </resources>

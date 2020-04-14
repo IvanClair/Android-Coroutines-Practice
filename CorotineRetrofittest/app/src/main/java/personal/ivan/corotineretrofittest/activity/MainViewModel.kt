@@ -14,7 +14,7 @@ class MainViewModel : ViewModel() {
      */
     private val mRepository = ApiRepository()
     private var mIndex: Int = 0
-    val apiStatus: MutableLiveData<ApiStatus> = MutableLiveData()
+    val apiStatus = MutableLiveData<ApiStatus>()
 
     /*
         Binding Model

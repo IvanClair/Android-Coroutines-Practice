@@ -1,6 +1,5 @@
 package personal.ivan.corotineretrofittest.api
 
-import androidx.lifecycle.LiveDataScope
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
