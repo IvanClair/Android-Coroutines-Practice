@@ -1,21 +1,26 @@
-package personal.ivan.corotineretrofittest.activity
+package personal.ivan.corotineretrofittest.navigation.station.view
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.android.support.DaggerAppCompatActivity
 import personal.ivan.corotineretrofittest.R
 import personal.ivan.corotineretrofittest.api.ApiStatus
 import personal.ivan.corotineretrofittest.databinding.ActivityMainBinding
+import personal.ivan.corotineretrofittest.di.AppViewModelFactory
+import personal.ivan.corotineretrofittest.navigation.station.viewmodel.StationViewModel
+import personal.ivan.corotineretrofittest.navigation.station.viewmodel.showApiLoading
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class StationActivity : DaggerAppCompatActivity() {
 
     // View Model
-    private val mViewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
-    }
+    @Inject
+    lateinit var viewModelFactory: AppViewModelFactory
+    private val mViewModel: StationViewModel by viewModels { viewModelFactory }
+//    private val mViewModel: StationViewModel by viewModels()
 
     // Data Binding
     private val mBinding: ActivityMainBinding by lazy {
@@ -39,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
             // API loading status
             apiStatus.observe(
-                this@MainActivity,
+                this@StationActivity,
                 Observer {
                     @Suppress("WHEN_ENUM_CAN_BE_NULL_IN_JAVA")
                     when (it) {
@@ -51,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
             // Data set changed
             dataUpdatedRange.observe(
-                this@MainActivity,
+                this@StationActivity,
                 Observer { updateRecyclerView(startIndex = it.first, count = it.second) })
         }
     }
@@ -61,7 +66,10 @@ class MainActivity : AppCompatActivity() {
     private fun initRecyclerView() {
         mBinding.recyclerView.apply {
             setHasFixedSize(true)
-            adapter = StationListAdapter(mViewModel = mViewModel)
+            adapter =
+                StationListAdapter(
+                    mViewModel = mViewModel
+                )
         }
     }
 

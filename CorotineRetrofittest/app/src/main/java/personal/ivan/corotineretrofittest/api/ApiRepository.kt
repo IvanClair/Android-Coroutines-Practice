@@ -8,28 +8,24 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class ApiRepository {
 
     companion object {
-        private const val BASE_URL = "https://data.ntpc.gov.tw/od/data/api/"
         const val LIMIT: Int = 10
     }
 
-    // API service
-    private val mService: ApiService by lazy {
+    private val mService: ApiService =
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl("application.getString(R.string.base_url)")
             .addConverterFactory(MoshiConverterFactory.create())
             .client(
                 OkHttpClient
                     .Builder()
                     .apply {
-                        addInterceptor(HttpLoggingInterceptor()
-                            .apply { level = HttpLoggingInterceptor.Level.BODY })
+                        addInterceptor(
+                            HttpLoggingInterceptor()
+                                .apply { level = HttpLoggingInterceptor.Level.BODY })
                     }
                     .build())
             .build()
             .create(ApiService::class.java)
-    }
-
-    /* ------------------------------ API */
 
     /**
      * Request UBike station list

@@ -1,4 +1,4 @@
-package personal.ivan.corotineretrofittest.activity
+package personal.ivan.corotineretrofittest.navigation.station.view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +7,10 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textview.MaterialTextView
 import personal.ivan.corotineretrofittest.R
+import personal.ivan.corotineretrofittest.navigation.station.model.MainVhBindingModel
+import personal.ivan.corotineretrofittest.navigation.station.viewmodel.StationViewModel
 
-class StationListAdapter(private val mViewModel: MainViewModel) :
+class StationListAdapter(private val mViewModel: StationViewModel) :
     RecyclerView.Adapter<StationViewHolder>() {
 
     override fun onCreateViewHolder(

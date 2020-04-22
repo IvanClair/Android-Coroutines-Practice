@@ -9,13 +9,13 @@
 
         <variable
             name="viewModel"
-            type="personal.ivan.corotineretrofittest.activity.MainViewModel" />
+            type="personal.ivan.corotineretrofittest.navigation.station.viewmodel.StationViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.MainActivity">
+        tools:context=".navigation.station.view.StationActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
