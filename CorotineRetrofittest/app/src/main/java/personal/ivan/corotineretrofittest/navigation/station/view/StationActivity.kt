@@ -8,7 +8,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.android.support.DaggerAppCompatActivity
 import personal.ivan.corotineretrofittest.R
 import personal.ivan.corotineretrofittest.api.ApiStatus
-import personal.ivan.corotineretrofittest.databinding.ActivityMainBinding
+import personal.ivan.corotineretrofittest.databinding.ActivityStationBinding
 import personal.ivan.corotineretrofittest.di.AppViewModelFactory
 import personal.ivan.corotineretrofittest.navigation.station.viewmodel.StationViewModel
 import personal.ivan.corotineretrofittest.navigation.station.viewmodel.showApiLoading
@@ -20,12 +20,11 @@ class StationActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: AppViewModelFactory
     private val mViewModel: StationViewModel by viewModels { viewModelFactory }
-//    private val mViewModel: StationViewModel by viewModels()
 
     // Data Binding
-    private val mBinding: ActivityMainBinding by lazy {
+    private val mBinding: ActivityStationBinding by lazy {
         DataBindingUtil
-            .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+            .setContentView<ActivityStationBinding>(this, R.layout.activity_station)
             .apply { viewModel = mViewModel }
     }
 
@@ -35,6 +34,28 @@ class StationActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         initRecyclerView()
         observeLiveData()
+    }
+
+    /* ------------------------------ UI */
+
+    private fun initRecyclerView() {
+        mBinding.recyclerView.apply {
+            setHasFixedSize(true)
+            adapter = StationListAdapter(mViewModel = mViewModel)
+        }
+    }
+
+    private fun updateRecyclerView() {
+        mBinding.recyclerView.adapter?.notifyDataSetChanged()
+    }
+
+    private fun showApiAlert() {
+        mViewModel.showApiLoading(enable = false)
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.api_alert_title)
+            .setMessage(R.string.api_alert_message)
+            .setPositiveButton(R.string.button_ok, null)
+            .show()
     }
 
     /* ------------------------------ Observe LiveData */
@@ -54,38 +75,10 @@ class StationActivity : DaggerAppCompatActivity() {
                     }
                 })
 
-            // Data set changed
-            dataUpdatedRange.observe(
+            // required data set changed
+            stationVhBindingModelList.observe(
                 this@StationActivity,
-                Observer { updateRecyclerView(startIndex = it.first, count = it.second) })
+                Observer { updateRecyclerView() })
         }
-    }
-
-    /* ------------------------------ UI */
-
-    private fun initRecyclerView() {
-        mBinding.recyclerView.apply {
-            setHasFixedSize(true)
-            adapter =
-                StationListAdapter(
-                    mViewModel = mViewModel
-                )
-        }
-    }
-
-    private fun updateRecyclerView(
-        startIndex: Int,
-        count: Int
-    ) {
-        mBinding.recyclerView.adapter?.notifyItemRangeChanged(startIndex, count)
-    }
-
-    private fun showApiAlert() {
-        mViewModel.showApiLoading(enable = false)
-        MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.api_alert_title)
-            .setMessage(R.string.api_alert_message)
-            .setPositiveButton(R.string.button_ok, null)
-            .show()
     }
 }

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="index"
+            type="int" />
+
+        <variable
+            name="viewModel"
+            type="personal.ivan.corotineretrofittest.navigation.station.viewmodel.StationViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.MaterialComponents.CardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textViewStationName"
+                style="@style/MyTextView.MyHeadline6"
+                android:layout_width="0dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{viewModel.stationVhBindingModelList[index].stationNameEn}"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewWarning"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Station Name" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textViewStationArea"
+                style="@style/MyTextView.MyCaption"
+                android:layout_width="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{viewModel.stationVhBindingModelList[index].stationAreaEn}"
+                app:layout_constraintEnd_toStartOf="@+id/imageViewWarning"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewStationName"
+                tools:text="Station Area" />
+
+            <ImageView
+                android:id="@+id/imageViewWarning"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_warning"
+                android:tint="?attr/colorPrimary"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textViewAvailableForRentalLabel"
+                style="@style/MyTextView.MySubtitle1"
+                android:layout_width="0dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_available_for_rental"
+                app:layout_constraintEnd_toStartOf="@+id/textViewAvailableForReturn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewStationArea" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textViewAvailableForReturnLabel"
+                style="@style/MyTextView.MySubtitle1"
+                android:layout_width="0dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/label_available_for_return"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewAvailableForRental"
+                app:layout_constraintTop_toBottomOf="@+id/textViewStationArea" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textViewAvailableForRental"
+                style="@style/MyTextView.MyHeadline4"
+                android:layout_width="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@{viewModel.stationVhBindingModelList[index].availableForRental}"
+                app:layout_constraintEnd_toStartOf="@+id/textViewAvailableForReturn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewAvailableForRentalLabel"
+                tools:text="0" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/textViewAvailableForReturn"
+                style="@style/MyTextView.MyHeadline4"
+                android:layout_width="0dp"
+                android:layout_marginTop="8dp"
+                android:text="@{viewModel.stationVhBindingModelList[index].availableSpaceForReturn}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewAvailableForRental"
+                app:layout_constraintTop_toBottomOf="@+id/textViewAvailableForRentalLabel"
+                tools:text="0" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

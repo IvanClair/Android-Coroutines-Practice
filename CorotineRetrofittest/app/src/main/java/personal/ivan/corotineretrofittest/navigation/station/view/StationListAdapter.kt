@@ -1,14 +1,16 @@
 package personal.ivan.corotineretrofittest.navigation.station.view
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textview.MaterialTextView
+import personal.ivan.corotineretrofittest.BR
 import personal.ivan.corotineretrofittest.R
-import personal.ivan.corotineretrofittest.navigation.station.model.MainVhBindingModel
 import personal.ivan.corotineretrofittest.navigation.station.viewmodel.StationViewModel
+
+/* ------------------------------ Adapter */
 
 class StationListAdapter(private val mViewModel: StationViewModel) :
     RecyclerView.Adapter<StationViewHolder>() {
@@ -18,40 +20,44 @@ class StationListAdapter(private val mViewModel: StationViewModel) :
         viewType: Int
     ) =
         StationViewHolder(
-            mView =
-            LayoutInflater
-                .from(parent.context)
-                .inflate(R.layout.vh_main, parent, false)
+            mBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context),
+                R.layout.vh_station,
+                parent,
+                false
+            )
         )
 
     override fun onBindViewHolder(
         holder: StationViewHolder,
         position: Int
     ) {
-        mViewModel.mainVhBindingModelList.value
+        mViewModel.stationVhBindingModelList.value
             ?.getOrNull(position)
-            ?.also { holder.setUp(data = it) }
+            ?.also { holder.bind(position = position, viewModel = mViewModel) }
     }
 
     override fun getItemCount(): Int =
-        mViewModel.mainVhBindingModelList.value?.size ?: 0
+        mViewModel.stationVhBindingModelList.value?.size ?: 0
 }
 
-class StationViewHolder(private val mView: View) : RecyclerView.ViewHolder(mView) {
+/* ------------------------------ ViewHolder */
+
+class StationViewHolder(private val mBinding: ViewDataBinding) :
+    RecyclerView.ViewHolder(mBinding.root) {
 
     /**
      * Set up data to view
      */
-    fun setUp(data: MainVhBindingModel) {
-        mView.apply {
-            findViewById<MaterialTextView>(R.id.textViewStationName).text = data.name
-            findViewById<MaterialTextView>(R.id.textViewStationArea).text = data.area
-            findViewById<ImageView>(R.id.imageViewWarning).visibility =
-                if (data.closed) View.INVISIBLE else View.GONE
-            findViewById<MaterialTextView>(R.id.textViewAvailableForRental).text =
-                data.availableNumber
-            findViewById<MaterialTextView>(R.id.textViewAvailableForReturn).text =
-                data.spaceForReturn
+    fun bind(
+        position: Int? = null,
+        viewModel: ViewModel? = null
+    ) {
+        mBinding.apply {
+            position?.also { setVariable(BR.index, it) }
+            viewModel?.also { setVariable(BR.viewModel, it) }
+            executePendingBindings()
         }
     }
 }

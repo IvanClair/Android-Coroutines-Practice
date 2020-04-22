@@ -2,29 +2,30 @@ package personal.ivan.corotineretrofittest.navigation.station.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import personal.ivan.corotineretrofittest.api.ApiRepository
+import personal.ivan.corotineretrofittest.api.ApiStatus
+import personal.ivan.corotineretrofittest.api.UBikeStation
 import personal.ivan.corotineretrofittest.navigation.station.model.MainBindingModel
 import personal.ivan.corotineretrofittest.navigation.station.model.MainVhBindingModel
-import personal.ivan.corotineretrofittest.api.ApiStatus
 import javax.inject.Inject
 
-class StationViewModel @Inject constructor() : ViewModel() {
+class StationViewModel @Inject constructor(private val mRepository: ApiRepository) : ViewModel() {
 
     /*
         API
      */
-    private var mIndex: Int = 0
     val apiStatus = MutableLiveData<ApiStatus>()
 
     /*
         Binding Model
      */
-    val mainBindingModel =
-        MutableLiveData<MainBindingModel>().apply { value =
-            MainBindingModel()
+    val stationBindingModel =
+        MutableLiveData<MainBindingModel>().apply {
+            value = MainBindingModel()
         }
-    val mainVhBindingModelList =
-        MutableLiveData<MutableList<MainVhBindingModel>>().apply { value = mutableListOf() }
-    val dataUpdatedRange = MutableLiveData<Pair<Int, Int>>()
+    val stationVhBindingModelList = MutableLiveData<List<UBikeStation>>()
 
     /* ------------------------------ Initial */
 
@@ -35,19 +36,14 @@ class StationViewModel @Inject constructor() : ViewModel() {
     /* ------------------------------ API */
 
     private fun requestApi() {
-//        viewModelScope.launch {
-//            apiStatus.value = ApiStatus.LOADING
-//            try {
-//                val dataList = mRepository.requestStationList(index = mIndex)
-//                mainVhBindingModelList.value?.apply {
-//                    val lastIndexOfOriginDataList = lastIndex
-//                    addAll(MainVhBindingModel.createDataList(dataList = dataList))
-//                    dataUpdatedRange.value = Pair(lastIndexOfOriginDataList, dataList.size)
-//                }
-//                apiStatus.value = ApiStatus.SUCCESS
-//            } catch (e: Exception) {
-//                apiStatus.value = ApiStatus.FAIL
-//            }
-//        }
+        viewModelScope.launch {
+            apiStatus.value = ApiStatus.LOADING
+            try {
+                stationVhBindingModelList.value = mRepository.requestStationList()
+                apiStatus.value = ApiStatus.SUCCESS
+            } catch (e: Exception) {
+                apiStatus.value = ApiStatus.FAIL
+            }
+        }
     }
 }

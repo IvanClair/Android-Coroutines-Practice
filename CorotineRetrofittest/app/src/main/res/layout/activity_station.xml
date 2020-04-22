@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
                     android:layout_marginEnd="16dp"
-                    android:visibility="@{viewModel.mainBindingModel.showLoading ? View.VISIBLE : View.GONE}" />
+                    android:visibility="@{viewModel.stationBindingModel.showLoading ? View.VISIBLE : View.GONE}" />
             </Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -50,6 +50,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
             tools:itemCount="2"
-            tools:listitem="@layout/vh_main" />
+            tools:listitem="@layout/vh_station" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

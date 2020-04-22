@@ -1,5 +1,8 @@
 package personal.ivan.corotineretrofittest.navigation.station.viewmodel
 
+/**
+ * Show or hide loading UI
+ */
 fun StationViewModel.showApiLoading(enable: Boolean) {
-    mainBindingModel.value?.showLoading = enable
+    stationBindingModel.value?.showLoading = enable
 }
