@@ -26,9 +26,4 @@ data class UBikeStation(
     @field:Json(name = "tot") val totalParkingSpace: String?,
     @field:Json(name = "sbi") val availableForRental: String?,
     @field:Json(name = "bemp") val availableSpaceForReturn: String?
-) {
-
-    companion object {
-        const val DATE_PATTERN_UPDATE = "yyyyMMddHHmmss"
-    }
-}
+)

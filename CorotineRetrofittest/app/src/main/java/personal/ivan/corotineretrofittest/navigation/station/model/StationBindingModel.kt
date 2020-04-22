@@ -1,9 +1,11 @@
-package personal.ivan.corotineretrofittest.activity
+package personal.ivan.corotineretrofittest.navigation.station.model
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import personal.ivan.corotineretrofittest.BR
 import personal.ivan.corotineretrofittest.api.UBikeStation
+
+/* ------------------------------ Page Binding Model */
 
 class MainBindingModel : BaseObservable() {
 
@@ -14,6 +16,8 @@ class MainBindingModel : BaseObservable() {
             notifyPropertyChanged(BR.showLoading)
         }
 }
+
+/* ------------------------------ View Holder Binding Model */
 
 data class MainVhBindingModel(
     val closed: Boolean,

@@ -6,5 +6,4 @@
     <string name="button_ok">OK</string>
     <string name="label_available_for_rental">Rental</string>
     <string name="label_available_for_return">Return</string>
-    <string name="label_closed">Closed</string>
 </resources>
